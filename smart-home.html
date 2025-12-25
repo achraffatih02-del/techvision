@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Home Control | TechVision</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <style>
+        .dashboard {
+            padding-top: 8rem;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .dashboard-title h1 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-stats {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .stat-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stat-badge i {
+            color: var(--primary);
+        }
+        
+        .rooms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .room-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-base);
+            cursor: pointer;
+        }
+        
+        .room-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+        
+        .room-card.active {
+            background: rgba(0, 102, 255, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .room-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .room-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .room-devices {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .device-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+        }
+        
+        .device-tag.on {
+            background: rgba(0, 200, 83, 0.2);
+            color: var(--success);
+        }
+        
+        .device-tag.off {
+            background: rgba(255, 82, 82, 0.2);
+            color: var(--danger);
+        }
+        
+        .devices-section {
+            margin-top: 4rem;
+        }
+        
+        .devices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .device-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-base);
+        }
+        
+        .device-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .device-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .device-name {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .device-icon {
+            color: var(--primary);
+            font-size: 1.25rem;
+        }
+        
+        .device-status {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--gray-500);
+        }
+        
+        .device-status.on {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+        
+        .device-status.off {
+            background: var(--danger);
+        }
+        
+        .device-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .control-btn {
+            flex: 1;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-md);
+            color: var(--light);
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .control-btn.active {
+            background: var(--gradient-primary);
+            border-color: transparent;
+        }
+        
+        .automation-section {
+            margin-top: 4rem;
+        }
+        
+        .automation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .automation-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .automation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .automation-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .automation-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .automation-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gray-700);
+            border-radius: 34px;
+            transition: var(--transition-base);
+        }
+        
+        .automation-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background: var(--light);
+            border-radius: 50%;
+            transition: var(--transition-base);
+        }
+        
+        .automation-switch input:checked + .automation-slider {
+            background: var(--primary);
+        }
+        
+        .automation-switch input:checked + .automation-slider:before {
+            transform: translateX(30px);
+        }
+        
+        .energy-section {
+            margin-top: 4rem;
+        }
+        
+        .energy-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .energy-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .energy-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .dashboard-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .rooms-grid,
+            .devices-grid,
+            .automation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-brain logo-icon"></i>
+                <span class="logo-text">TechVision</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="ai-tools.html" class="nav-link">AI Tools</a>
+                <a href="smart-home.html" class="nav-link active">Smart Home</a>
+                <a href="tech-news.html" class="nav-link">Tech News</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="about.html" class="btn btn-primary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Smart Home Dashboard -->
+    <main class="dashboard">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    <h1 class="section-title">Smart Home Control</h1>
+                    <p class="section-subtitle" style="text-align: left;">Manage all your connected devices from one dashboard</p>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-badge">
+                        <i class="fas fa-plug"></i>
+                        <div>
+                            <div style="font-size: 1.25rem; font-weight: 600;">12</div>
+                            <div style="font-size: 0.8rem; color: var(--gray-400);">Devices Online</div>
+                        </div>
+                    </div>
+                    <div class="stat-badge">
+                        <i class="fas fa-bolt"></i>
+                        <div>
+                            <div style="font-size: 1.25rem; font-weight: 600;">45.2 kWh</div>
+                            <div style="font-size: 0.8rem; color: var(--gray-400);">Energy Today</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rooms Section -->
+            <section>
+                <h2 style="margin-bottom: 1.5rem;">Rooms</h2>
+                <div class="rooms-grid">
+                    <div class="room-card active" data-room="living-room">
+                        <div class="room-header">
+                            <div class="room-icon">
+                                <i class="fas fa-couch"></i>
+                            </div>
+                            <div>
+                                <h3>Living Room</h3>
+                                <p>4 devices • 22°C</p>
+                            </div>
+                        </div>
+                        <div class="room-devices">
+                            <span class="device-tag on"><i class="fas fa-lightbulb"></i> Lights</span>
+                            <span class="device-tag on"><i class="fas fa-thermometer-half"></i> AC</span>
+                            <span class="device-tag off"><i class="fas fa-tv"></i> TV</span>
+                            <span class="device-tag on"><i class="fas fa-speaker"></i> Speaker</span>
+                        </div>
+                    </div>
+                    
+                    <div class="room-card" data-room="bedroom">
+                        <div class="room-header">
+                            <div class="room-icon">
+                                <i class="fas fa-bed"></i>
+                            </div>
+                            <div>
+                                <h3>Bedroom</h3>
+                                <p>3 devices • 20°C</p>
+                            </div>
+                        </div>
+                        <div class="room-devices">
+                            <span class="device-tag off"><i class="fas fa-lightbulb"></i> Lights</span>
+                            <span class="device-tag on"><i class="fas fa-thermometer-half"></i> Heater</span>
+                            <span class="device-tag on"><i class="fas fa-clock"></i> Alarm</span>
+                        </div>
+                    </div>
+                    
+                    <div class="room-card" data-room="kitchen">
+                        <div class="room-header">
+                            <div class="room-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div>
+                                <h3>Kitchen</h3>
+                                <p>5 devices • 24°C</p>
+                            </div>
+                        </div>
+                        <div class="room-devices">
+                            <span class="device-tag on"><i class="fas fa-lightbulb"></i> Lights</span>
+                            <span class="device-tag on"><i class="fas fa-refrigerator"></i> Fridge</span>
+                            <span class="device-tag off"><i class="fas fa-coffee"></i> Coffee Maker</span>
+                            <span class="device-tag on"><i class="fas fa-fan"></i> Exhaust</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Devices Section -->
+            <section class="devices-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2>Devices</h2>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-plus"></i> Add Device
+                    </button>
+                </div>
+                
+                <div class="devices-grid" id="devicesGrid">
+                    <!-- Devices will be loaded here -->
+                </div>
+            </section>
+            
+            <!-- Automation Section -->
+            <section class="automation-section">
+                <h2 style="margin-bottom: 1.5rem;">Automations</h2>
+                <div class="automation-grid">
+                    <div class="automation-card">
+                        <div class="automation-header">
+                            <h3>Good Morning</h3>
+                            <label class="automation-switch">
+                                <input type="checkbox" checked>
+                                <span class="automation-slider"></span>
+                            </label>
+                        </div>
+                        <p>Turn on lights, start coffee maker, and adjust thermostat at 7:00 AM on weekdays.</p>
+                        <div style="margin-top: 1rem; color: var(--gray-400); font-size: 0.9rem;">
+                            <i class="far fa-clock"></i> 7:00 AM • Mon-Fri
+                        </div>
+                    </div>
+                    
+                    <div class="automation-card">
+                        <div class="automation-header">
+                            <h3>Movie Night</h3>
+                            <label class="automation-switch">
+                                <input type="checkbox" checked>
+                                <span class="automation-slider"></span>
+                            </label>
+                        </div>
+                        <p>Dim lights, turn on TV, and adjust sound system when "Movie Mode" is activated.</p>
+                        <div style="margin-top: 1rem; color: var(--gray-400); font-size: 0.9rem;">
+                            <i class="fas fa-video"></i> Voice Activated
+                        </div>
+                    </div>
+                    
+                    <div class="automation-card">
+                        <div class="automation-header">
+                            <h3>Energy Saver</h3>
+                            <label class="automation-switch">
+                                <input type="checkbox">
+                                <span class="automation-slider"></span>
+                            </label>
+                        </div>
+                        <p>Turn off all non-essential devices when no motion is detected for 30 minutes.</p>
+                        <div style="margin-top: 1rem; color: var(--gray-400); font-size: 0.9rem;">
+                            <i class="fas fa-leaf"></i> Saves ~15% energy
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Energy Section -->
+            <section class="energy-section">
+                <h2 style="margin-bottom: 1.5rem;">Energy Usage</h2>
+                <div class="energy-stats">
+                    <div class="energy-card">
+                        <i class="fas fa-bolt" style="font-size: 2rem; color: var(--warning);"></i>
+                        <div class="energy-value">45.2 kWh</div>
+                        <div>Today's Usage</div>
+                    </div>
+                    
+                    <div class="energy-card">
+                        <i class="fas fa-dollar-sign" style="font-size: 2rem; color: var(--success);"></i>
+                        <div class="energy-value">$6.78</div>
+                        <div>Today's Cost</div>
+                    </div>
+                    
+                    <div class="energy-card">
+                        <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--primary);"></i>
+                        <div class="energy-value">-12%</div>
+                        <div>vs. Yesterday</div>
+                    </div>
+                    
+                    <div class="energy-card">
+                        <i class="fas fa-leaf" style="font-size: 2rem; color: var(--accent);"></i>
+                        <div class="energy-value">24 kg</div>
+                        <div>CO₂ Saved</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TechVision</h4>
+                    <p>Bridging today's technology with tomorrow's innovations.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <ul class="footer-links">
+                        <li><a href="ai-tools.html">AI Tools Hub</a></li>
+                        <li><a href="smart-home.html">Smart Home</a></li>
+                        <li><a href="tech-news.html">Tech News</a></li>
+                        <li><a href="dashboard.html">User Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="about.html#contact">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 TechVision. All rights reserved. | Smart Home Control Panel
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/smart-home.js"></script>
+</body>
+</html>

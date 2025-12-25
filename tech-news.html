@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech News & Trends | TechVision</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .news-page {
+            padding-top: 8rem;
+        }
+        
+        .news-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .news-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .category-tag {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--gray-300);
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition-base);
+            font-weight: 500;
+        }
+        
+        .category-tag.active,
+        .category-tag:hover {
+            background: var(--gradient-primary);
+            color: var(--light);
+            border-color: transparent;
+        }
+        
+        .news-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+        }
+        
+        .featured-article {
+            margin-bottom: 3rem;
+        }
+        
+        .article-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-base);
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+        }
+        
+        .article-image {
+            height: 300px;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .article-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--accent);
+            color: var(--light);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .article-content {
+            padding: 2rem;
+        }
+        
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .article-excerpt {
+            color: var(--gray-300);
+            margin: 1.5rem 0;
+            line-height: 1.7;
+        }
+        
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .article-small {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-base);
+        }
+        
+        .article-small:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .article-small .article-image {
+            height: 200px;
+        }
+        
+        .article-small .article-content {
+            padding: 1.5rem;
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        
+        .sidebar-section {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .trending-articles {
+            list-style: none;
+        }
+        
+        .trending-article {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .trending-article:last-child {
+            border-bottom: none;
+        }
+        
+        .trending-rank {
+            width: 30px;
+            height: 30px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        
+        .trending-content h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            line-height: 1.4;
+        }
+        
+        .trending-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--gray-500);
+            font-size: 0.8rem;
+        }
+        
+        .video-section {
+            margin-top: 4rem;
+        }
+        
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .video-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-base);
+        }
+        
+        .video-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .video-thumbnail {
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-size: 1.5rem;
+            transition: var(--transition-base);
+        }
+        
+        .video-card:hover .video-play {
+            background: var(--light);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .video-content {
+            padding: 1.5rem;
+        }
+        
+        .video-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .newsletter-section {
+            background: var(--gradient-primary);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .newsletter-content h2 {
+            color: var(--light);
+            margin-bottom: 1rem;
+        }
+        
+        .newsletter-form {
+            max-width: 500px;
+            margin: 2rem auto 0;
+        }
+        
+        .form-group-inline {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        @media (max-width: 992px) {
+            .news-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                position: static;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group-inline {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-brain logo-icon"></i>
+                <span class="logo-text">TechVision</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="ai-tools.html" class="nav-link">AI Tools</a>
+                <a href="smart-home.html" class="nav-link">Smart Home</a>
+                <a href="tech-news.html" class="nav-link active">Tech News</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="community.html" class="nav-link">Community</a>
+                <a href="about.html" class="btn btn-primary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Tech News Page -->
+    <main class="news-page">
+        <div class="container">
+            <div class="news-header">
+                <h1 class="section-title">Tech News & Trends</h1>
+                <p class="section-subtitle">Stay updated with the latest technology developments, AI breakthroughs, and innovation trends</p>
+                
+                <div class="news-categories">
+                    <span class="category-tag active">All News</span>
+                    <span class="category-tag">Artificial Intelligence</span>
+                    <span class="category-tag">Web3 & Blockchain</span>
+                    <span class="category-tag">Quantum Computing</span>
+                    <span class="category-tag">Robotics</span>
+                    <span class="category-tag">Cybersecurity</span>
+                    <span class="category-tag">Startups</span>
+                    <span class="category-tag">Gadgets</span>
+                </div>
+            </div>
+            
+            <div class="news-layout">
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Featured Article -->
+                    <div class="featured-article">
+                        <div class="article-card fade-in">
+                            <div class="article-image">
+                                <div class="article-badge">Featured</div>
+                                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); height: 100%;"></div>
+                            </div>
+                            <div class="article-content">
+                                <h2>OpenAI Unveils GPT-5: The Most Advanced AI Model Yet</h2>
+                                <div class="article-meta">
+                                    <span><i class="far fa-clock"></i> 2 hours ago</span>
+                                    <span><i class="far fa-user"></i> Sarah Johnson</span>
+                                    <span><i class="far fa-eye"></i> 12.4K views</span>
+                                    <span><i class="far fa-comment"></i> 342 comments</span>
+                                </div>
+                                <p class="article-excerpt">
+                                    The new GPT-5 model demonstrates unprecedented capabilities in understanding and generating text, images, and code simultaneously. With improved reasoning and reduced hallucinations, this marks a significant leap in AI technology.
+                                </p>
+                                <a href="#" class="btn btn-primary">Read Full Article</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Articles Grid -->
+                    <div class="articles-grid" id="articlesGrid">
+                        <!-- Articles will be loaded here -->
+                    </div>
+                    
+                    <!-- Video Section -->
+                    <section class="video-section">
+                        <h2 style="margin-bottom: 1.5rem;">Latest Tech Talks</h2>
+                        <div class="video-grid">
+                            <div class="video-card fade-in">
+                                <div class="video-thumbnail">
+                                    <div class="video-play">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); height: 100%;"></div>
+                                </div>
+                                <div class="video-content">
+                                    <h4>The Future of AI in Healthcare</h4>
+                                    <p>How artificial intelligence is revolutionizing medical diagnosis and treatment.</p>
+                                    <div class="video-meta">
+                                        <span>45 min</span>
+                                        <span>Dr. Michael Chen</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="video-card fade-in">
+                                <div class="video-thumbnail">
+                                    <div class="video-play">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); height: 100%;"></div>
+                                </div>
+                                <div class="video-content">
+                                    <h4>Web3: The Next Internet Revolution</h4>
+                                    <p>Understanding blockchain, NFTs, and the decentralized web.</p>
+                                    <div class="video-meta">
+                                        <span>32 min</span>
+                                        <span>Alexandra Wang</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="video-card fade-in">
+                                <div class="video-thumbnail">
+                                    <div class="video-play">
+                                        <i class="fas fa-play"></i>
+                                    </div>
+                                    <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); height: 100%;"></div>
+                                </div>
+                                <div class="video-content">
+                                    <h4>Quantum Computing Breakthroughs 2024</h4>
+                                    <p>Latest developments in quantum hardware and algorithms.</p>
+                                    <div class="video-meta">
+                                        <span>58 min</span>
+                                        <span>Prof. James Wilson</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-section">
+                        <h3 style="margin-bottom: 1.5rem;">Trending Now</h3>
+                        <ul class="trending-articles">
+                            <li class="trending-article">
+                                <div class="trending-rank">1</div>
+                                <div class="trending-content">
+                                    <h4>Apple Announces AR Glasses for 2024</h4>
+                                    <div class="trending-meta">
+                                        <span>TechCrunch</span>
+                                        <span>•</span>
+                                        <span>2h ago</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="trending-article">
+                                <div class="trending-rank">2</div>
+                                <div class="trending-content">
+                                    <h4>Quantum Error Correction Milestone Achieved</h4>
+                                    <div class="trending-meta">
+                                        <span>Nature</span>
+                                        <span>•</span>
+                                        <span>5h ago</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="trending-article">
+                                <div class="trending-rank">3</div>
+                                <div class="trending-content">
+                                    <h4>EU Passes Historic AI Regulation Act</h4>
+                                    <div class="trending-meta">
+                                        <span>Reuters</span>
+                                        <span>•</span>
+                                        <span>1d ago</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="trending-article">
+                                <div class="trending-rank">4</div>
+                                <div class="trending-content">
+                                    <h4>SpaceX Launches Next-Gen Starlink Satellites</h4>
+                                    <div class="trending-meta">
+                                        <span>Space News</span>
+                                        <span>•</span>
+                                        <span>1d ago</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="trending-article">
+                                <div class="trending-rank">5</div>
+                                <div class="trending-content">
+                                    <h4>Microsoft Integrates AI into Windows 12</h4>
+                                    <div class="trending-meta">
+                                        <span>The Verge</span>
+                                        <span>•</span>
+                                        <span>2d ago</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <h3 style="margin-bottom: 1.5rem;">Newsletter</h3>
+                        <p style="color: var(--gray-300); margin-bottom: 1.5rem;">Get weekly tech insights delivered to your inbox.</p>
+                        <form class="newsletter-form">
+                            <div class="form-group">
+                                <input type="email" class="form-control" placeholder="Your email address" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-paper-plane"></i> Subscribe
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="sidebar-section">
+                        <h3 style="margin-bottom: 1.5rem;">Upcoming Events</h3>
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">AI Summit 2024</div>
+                                <div style="color: var(--gray-400); font-size: 0.9rem;">March 15-17 • San Francisco</div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Web3 Conference</div>
+                                <div style="color: var(--gray-400); font-size: 0.9rem;">April 5-7 • Berlin</div>
+                            </div>
+                            <div style="background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: var(--radius-md);">
+                                <div style="font-weight: 600; margin-bottom: 0.25rem;">Quantum Computing Expo</div>
+                                <div style="color: var(--gray-400); font-size: 0.9rem;">May 20-22 • Singapore</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Newsletter Section -->
+            <div class="newsletter-section fade-in">
+                <div class="newsletter-content">
+                    <h2>Never Miss Tech Updates</h2>
+                    <p style="color: rgba(255, 255, 255, 0.9); max-width: 600px; margin: 0 auto;">Subscribe to our daily newsletter for the latest tech news, AI developments, and innovation trends.</p>
+                    <form class="newsletter-form">
+                        <div class="form-group-inline">
+                            <input type="email" class="form-control" placeholder="Enter your email" style="flex: 1;">
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fas fa-paper-plane"></i> Subscribe Now
+                            </button>
+                        </div>
+                        <div style="margin-top: 1rem; color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">
+                            By subscribing, you agree to our Privacy Policy
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TechVision</h4>
+                    <p>Bridging today's technology with tomorrow's innovations.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <ul class="footer-links">
+                        <li><a href="ai-tools.html">AI Tools Hub</a></li>
+                        <li><a href="smart-home.html">Smart Home</a></li>
+                        <li><a href="tech-news.html">Tech News</a></li>
+                        <li><a href="dashboard.html">User Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="about.html#contact">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 TechVision. All rights reserved. | Tech News & Trends
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/news.js"></script>
+</body>
+</html>

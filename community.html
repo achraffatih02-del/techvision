@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Forum | TechVision</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        .community-page {
+            padding-top: 8rem;
+        }
+        
+        .community-hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), rgba(123, 66, 246, 0.1));
+            border-radius: var(--radius-lg);
+            margin-bottom: 4rem;
+        }
+        
+        .community-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-circle {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .community-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+        
+        .categories-sidebar {
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+        }
+        
+        .category-list {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .category-item {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+        }
+        
+        .category-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .category-item.active {
+            background: var(--gradient-primary);
+        }
+        
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+        
+        .category-item.active .category-icon {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .category-count {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+        }
+        
+        .forum-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .search-box {
+            position: relative;
+            width: 300px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            color: var(--light);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+        
+        .discussion-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        
+        .discussion-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-base);
+        }
+        
+        .discussion-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        .discussion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .discussion-title {
+            flex: 1;
+        }
+        
+        .discussion-title h3 {
+            margin-bottom: 0.5rem;
+        }
+        
+        .discussion-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .discussion-tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(0, 102, 255, 0.1);
+            color: var(--primary);
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .discussion-stats {
+            display: flex;
+            gap: 1.5rem;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+        
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .discussion-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .author-info {
+            flex: 1;
+        }
+        
+        .author-name {
+            font-weight: 600;
+        }
+        
+        .post-time {
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+        
+        .featured-users {
+            margin-top: 4rem;
+        }
+        
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .user-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-base);
+        }
+        
+        .user-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .user-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .user-badges {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .badge {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+        }
+        
+        .badge.expert {
+            background: var(--warning);
+        }
+        
+        .badge.moderator {
+            background: var(--primary);
+        }
+        
+        .events-section {
+            margin-top: 4rem;
+        }
+        
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .event-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .event-date {
+            display: inline-block;
+            background: var(--gradient-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .event-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--gray-400);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        
+        .new-discussion {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 992px) {
+            .community-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .categories-sidebar {
+                position: static;
+                margin-bottom: 2rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .community-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .users-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .discussion-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .discussion-stats {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <div class="container header-content">
+            <a href="index.html" class="logo">
+                <i class="fas fa-brain logo-icon"></i>
+                <span class="logo-text">TechVision</span>
+            </a>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="ai-tools.html" class="nav-link">AI Tools</a>
+                <a href="smart-home.html" class="nav-link">Smart Home</a>
+                <a href="tech-news.html" class="nav-link">Tech News</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="community.html" class="nav-link active">Community</a>
+                <a href="about.html" class="btn btn-primary">Get Started</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Community Page -->
+    <main class="community-page">
+        <div class="container">
+            <!-- Hero Section -->
+            <div class="community-hero fade-in">
+                <h1 class="section-title">TechVision Community</h1>
+                <p class="section-subtitle" style="max-width: 800px; margin: 0 auto;">
+                    Connect with innovators, share knowledge, and collaborate on the future of technology
+                </p>
+                
+                <div class="community-stats">
+                    <div class="stat-circle">
+                        <div class="stat-number">25K+</div>
+                        <div>Community Members</div>
+                    </div>
+                    <div class="stat-circle">
+                        <div class="stat-number">10K+</div>
+                        <div>Discussions</div>
+                    </div>
+                    <div class="stat-circle">
+                        <div class="stat-number">500+</div>
+                        <div>Experts Online</div>
+                    </div>
+                    <div class="stat-circle">
+                        <div class="stat-number">24/7</div>
+                        <div>Active Support</div>
+                    </div>
+                </div>
+                
+                <a href="#new-discussion" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Start New Discussion
+                </a>
+            </div>
+            
+            <div class="community-layout">
+                <!-- Categories Sidebar -->
+                <div class="categories-sidebar">
+                    <div class="category-list">
+                        <div class="category-item active">
+                            <div class="category-icon">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <span>AI & Machine Learning</span>
+                            <span class="category-count">1.2K</span>
+                        </div>
+                        
+                        <div class="category-item">
+                            <div class="category-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <span>Smart Home</span>
+                            <span class="category-count">856</span>
+                        </div>
+                        
+                        <div class="category-item">
+                            <div class="category-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <span>Development</span>
+                            <span class="category-count">2.4K</span>
+                        </div>
+                        
+                        <div class="category-item">
+                            <div class="category-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <span>Research</span>
+                            <span class="category-count">543</span>
+                        </div>
+                        
+                        <div class="category-item">
+                            <div class="category-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <span>Security</span>
+                            <span class="category-count">321</span>
+                        </div>
+                        
+                        <div class="category-item">
+                            <div class="category-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <span>Data Science</span>
+                            <span class="category-count">789</span>
+                        </div>
+                        
+                        <div class="category-item">
+                            <div class="category-icon">
+                                <i class="fas fa-cube"></i>
+                            </div>
+                            <span>Web3 & Blockchain</span>
+                            <span class="category-count">456</span>
+                        </div>
+                        
+                        <div class="category-item">
+                            <div class="category-icon">
+                                <i class="fas fa-question-circle"></i>
+                            </div>
+                            <span>Q&A</span>
+                            <span class="category-count">3.1K</span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <a href="#" class="btn btn-secondary" style="width: 100%;">
+                            <i class="fas fa-users"></i> Join Community Chat
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="forum-content">
+                    <div class="forum-header">
+                        <div>
+                            <h2>Recent Discussions</h2>
+                            <p style="color: var(--gray-400);">Latest conversations from the community</p>
+                        </div>
+                        
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Search discussions...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Discussion List -->
+                    <div class="discussion-list">
+                        <div class="discussion-card fade-in">
+                            <div class="discussion-header">
+                                <div class="discussion-title">
+                                    <h3>How to fine-tune GPT-5 for specific business use cases?</h3>
+                                    <div class="discussion-tags">
+                                        <span class="discussion-tag">AI</span>
+                                        <span class="discussion-tag">GPT-5</span>
+                                        <span class="discussion-tag">Business</span>
+                                    </div>
+                                </div>
+                                <div class="discussion-stats">
+                                    <div class="stat-item">
+                                        <i class="far fa-eye"></i>
+                                        <span>1.2K views</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="far fa-comment"></i>
+                                        <span>42 replies</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="far fa-heart"></i>
+                                        <span>156 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p>I'm working on implementing GPT-5 for customer support automation. Has anyone successfully fine-tuned it for specific industry terminology? Looking for best practices and potential pitfalls.</p>
+                            
+                            <div class="discussion-author">
+                                <div class="author-avatar">SJ</div>
+                                <div class="author-info">
+                                    <div class="author-name">Sarah Johnson</div>
+                                    <div class="post-time">Posted 2 hours ago • Last reply 15 min ago</div>
+                                </div>
+                                <button class="btn btn-primary">
+                                    <i class="far fa-comment"></i> Reply
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="discussion-card fade-in">
+                            <div class="discussion-header">
+                                <div class="discussion-title">
+                                    <h3>Smart home security best practices in 2024</h3>
+                                    <div class="discussion-tags">
+                                        <span class="discussion-tag">Security</span>
+                                        <span class="discussion-tag">Smart Home</span>
+                                        <span class="discussion-tag">IoT</span>
+                                    </div>
+                                </div>
+                                <div class="discussion-stats">
+                                    <div class="stat-item">
+                                        <i class="far fa-eye"></i>
+                                        <span>856 views</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="far fa-comment"></i>
+                                        <span>28 replies</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="far fa-heart"></i>
+                                        <span>89 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p>With the increasing number of IoT devices, what are the latest security measures everyone should implement? Share your setup and any vulnerabilities you've encountered.</p>
+                            
+                            <div class="discussion-author">
+                                <div class="author-avatar">MC</div>
+                                <div class="author-info">
+                                    <div class="author-name">Michael Chen</div>
+                                    <div class="post-time">Posted 1 day ago • Last reply 2 hours ago</div>
+                                </div>
+                                <button class="btn btn-primary">
+                                    <i class="far fa-comment"></i> Reply
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="discussion-card fade-in">
+                            <div class="discussion-header">
+                                <div class="discussion-title">
+                                    <h3>Quantum computing APIs and development tools</h3>
+                                    <div class="discussion-tags">
+                                        <span class="discussion-tag">Quantum</span>
+                                        <span class="discussion-tag">API</span>
+                                        <span class="discussion-tag">Development</span>
+                                    </div>
+                                </div>
+                                <div class="discussion-stats">
+                                    <div class="stat-item">
+                                        <i class="far fa-eye"></i>
+                                        <span>542 views</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="far fa-comment"></i>
+                                        <span>19 replies</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="far fa-heart"></i>
+                                        <span>67 likes</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <p>Looking to experiment with quantum computing APIs. Which platforms offer the best developer experience for beginners? IBM Qiskit vs Microsoft Q# vs others?</p>
+                            
+                            <div class="discussion-author">
+                                <div class="author-avatar">AW</div>
+                                <div class="author-info">
+                                    <div class="author-name">Alexandra Wang</div>
+                                    <div class="post-time">Posted 3 days ago • Last reply 1 day ago</div>
+                                </div>
+                                <button class="btn btn-primary">
+                                    <i class="far fa-comment"></i> Reply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Featured Users -->
+                    <div class="featured-users">
+                        <h2 style="margin-bottom: 1.5rem;">Community Experts</h2>
+                        <div class="users-grid">
+                            <div class="user-card fade-in">
+                                <div class="user-avatar-large">SJ</div>
+                                <h4>Sarah Johnson</h4>
+                                <p style="color: var(--gray-400); font-size: 0.9rem;">AI Researcher</p>
+                                <div class="user-badges">
+                                    <div class="badge expert"></div>
+                                    <div class="badge moderator"></div>
+                                </div>
+                                <div style="margin-top: 1rem; color: var(--gray-400); font-size: 0.9rem;">
+                                    1.2K contributions
+                                </div>
+                            </div>
+                            
+                            <div class="user-card fade-in">
+                                <div class="user-avatar-large">MC</div>
+                                <h4>Michael Chen</h4>
+                                <p style="color: var(--gray-400); font-size: 0.9rem;">Security Expert</p>
+                                <div class="user-badges">
+                                    <div class="badge expert"></div>
+                                </div>
+                                <div style="margin-top: 1rem; color: var(--gray-400); font-size: 0.9rem;">
+                                    856 contributions
+                                </div>
+                            </div>
+                            
+                            <div class="user-card fade-in">
+                                <div class="user-avatar-large">DR</div>
+                                <h4>David Rodriguez</h4>
+                                <p style="color: var(--gray-400); font-size: 0.9rem;">Quantum Developer</p>
+                                <div class="user-badges">
+                                    <div class="badge expert"></div>
+                                </div>
+                                <div style="margin-top: 1rem; color: var(--gray-400); font-size: 0.9rem;">
+                                    642 contributions
+                                </div>
+                            </div>
+                            
+                            <div class="user-card fade-in">
+                                <div class="user-avatar-large">AW</div>
+                                <h4>Alexandra Wang</h4>
+                                <p style="color: var(--gray-400); font-size: 0.9rem;">Product Lead</p>
+                                <div class="user-badges">
+                                    <div class="badge moderator"></div>
+                                </div>
+                                <div style="margin-top: 1rem; color: var(--gray-400); font-size: 0.9rem;">
+                                    1.5K contributions
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Events Section -->
+                    <div class="events-section">
+                        <h2 style="margin-bottom: 1.5rem;">Upcoming Events</h2>
+                        <div class="events-grid">
+                            <div class="event-card fade-in">
+                                <div class="event-date">March 15, 2024</div>
+                                <h3>AI Hackathon 2024</h3>
+                                <p>48-hour hackathon focused on AI solutions for healthcare. Compete for $50K in prizes.</p>
+                                <div class="event-meta">
+                                    <span><i class="fas fa-users"></i> 200+ participants</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> Virtual</span>
+                                </div>
+                                <button class="btn btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-calendar-plus"></i> Register Now
+                                </button>
+                            </div>
+                            
+                            <div class="event-card fade-in">
+                                <div class="event-date">April 5, 2024</div>
+                                <h3>Web3 Workshop</h3>
+                                <p>Hands-on workshop on building decentralized applications with blockchain technology.</p>
+                                <div class="event-meta">
+                                    <span><i class="fas fa-users"></i> 50 seats</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> San Francisco</span>
+                                </div>
+                                <button class="btn btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-calendar-plus"></i> Register Now
+                                </button>
+                            </div>
+                            
+                            <div class="event-card fade-in">
+                                <div class="event-date">May 20, 2024</div>
+                                <h3>Quantum Computing Meetup</h3>
+                                <p>Monthly meetup for quantum computing enthusiasts and researchers to share insights.</p>
+                                <div class="event-meta">
+                                    <span><i class="fas fa-users"></i> 100+ members</span>
+                                    <span><i class="fas fa-map-marker-alt"></i> Virtual & NYC</span>
+                                </div>
+                                <button class="btn btn-primary" style="margin-top: 1rem;">
+                                    <i class="fas fa-calendar-plus"></i> Register Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- New Discussion Form -->
+                    <div class="new-discussion" id="new-discussion">
+                        <h2 style="margin-bottom: 1rem;">Start a New Discussion</h2>
+                        <p style="color: var(--gray-400); margin-bottom: 2rem;">Share your questions, ideas, or projects with the community</p>
+                        
+                        <form>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Discussion Title" required>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" required>
+                                    <option value="">Select Category</option>
+                                    <option value="ai">AI & Machine Learning</option>
+                                    <option value="home">Smart Home</option>
+                                    <option value="dev">Development</option>
+                                    <option value="research">Research</option>
+                                    <option value="security">Security</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <textarea class="form-control" rows="5" placeholder="What would you like to discuss?" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="Add tags (comma separated)">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                                <i class="fas fa-paper-plane"></i> Post Discussion
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TechVision</h4>
+                    <p>Bridging today's technology with tomorrow's innovations.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Products</h4>
+                    <ul class="footer-links">
+                        <li><a href="ai-tools.html">AI Tools Hub</a></li>
+                        <li><a href="smart-home.html">Smart Home</a></li>
+                        <li><a href="tech-news.html">Tech News</a></li>
+                        <li><a href="dashboard.html">User Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="about.html#contact">Contact</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 TechVision. All rights reserved. | Community Forum
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/community.js"></script>
+</body>
+</html>

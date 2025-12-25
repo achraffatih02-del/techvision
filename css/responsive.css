@@ -1,0 +1,540 @@
+/* css/responsive.css */
+
+/* Large Screens (1200px and above) */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 1140px;
+        padding: 0 1.5rem;
+    }
+    
+    .footer-content {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Medium Screens (992px to 1199px) */
+@media (max-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .section-title {
+        font-size: 2.25rem;
+    }
+    
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Dashboard Layout */
+    .dashboard-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar-nav {
+        position: static;
+        margin-bottom: 2rem;
+    }
+    
+    /* Community Layout */
+    .community-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .categories-sidebar {
+        position: static;
+        margin-bottom: 2rem;
+    }
+    
+    /* News Layout */
+    .news-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .trending-sidebar {
+        position: static;
+    }
+}
+
+/* Small Screens (768px to 991px) */
+@media (max-width: 768px) {
+    .container {
+        max-width: 720px;
+        padding: 0 1rem;
+    }
+    
+    /* Header & Navigation */
+    .mobile-menu-btn {
+        display: block;
+    }
+    
+    .nav {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: var(--dark);
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1rem;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: var(--transition-base);
+        box-shadow: var(--shadow-lg);
+        border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+        z-index: 999;
+    }
+    
+    .nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Hero Section */
+    .hero {
+        padding: 10rem 0 5rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.125rem;
+    }
+    
+    .hero-cta {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .hero-cta .btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    /* Sections */
+    .section {
+        padding: 4rem 0;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    /* Grid Systems */
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .cards-grid,
+    .featured-grid,
+    .tools-grid,
+    .articles-grid,
+    .video-grid,
+    .team-grid,
+    .values-grid,
+    .users-grid,
+    .events-grid,
+    .favorites-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Cards */
+    .card,
+    .tool-card,
+    .article-card,
+    .video-card,
+    .team-card,
+    .value-card,
+    .user-card,
+    .event-card,
+    .favorite-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Stats */
+    .stats-grid,
+    .quick-stats,
+    .energy-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Dashboard */
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card-dash {
+        margin-bottom: 1rem;
+    }
+    
+    /* Forms */
+    .form-group-inline {
+        flex-direction: column;
+    }
+    
+    /* Footer */
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .footer-links li {
+        margin-bottom: 0;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    /* Mission & Vision */
+    .mission-vision {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Contact Grid */
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Job Listings */
+    .job-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    /* Discussion Cards */
+    .discussion-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .discussion-stats {
+        flex-wrap: wrap;
+    }
+    
+    .discussion-author {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .discussion-author .btn {
+        width: 100%;
+    }
+    
+    /* Forum Header */
+    .forum-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    /* About Page Layout */
+    .about-page .hero-about + div {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Extra Small Screens (576px to 767px) */
+@media (max-width: 576px) {
+    .container {
+        padding: 0 0.75rem;
+    }
+    
+    .hero {
+        padding: 8rem 0 3rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    h1 {
+        font-size: 2.5rem;
+    }
+    
+    h2 {
+        font-size: 2rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem;
+    }
+    
+    .btn {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.95rem;
+    }
+    
+    .section {
+        padding: 3rem 0;
+    }
+    
+    .section-title {
+        font-size: 1.75rem;
+    }
+    
+    /* Card Padding */
+    .card-body,
+    .card-header,
+    .card-footer,
+    .tool-card,
+    .article-content,
+    .video-content,
+    .team-card,
+    .value-card,
+    .user-card,
+    .event-card,
+    .favorite-card,
+    .settings-card,
+    .discussion-card {
+        padding: 1.5rem;
+    }
+    
+    /* Modal */
+    .modal-content {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    /* Dashboard */
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .dashboard-stats {
+        width: 100%;
+    }
+    
+    /* Forms */
+    .newsletter-form .form-group-inline .btn {
+        width: 100%;
+    }
+    
+    /* Tables */
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    /* Utility Classes */
+    .text-center-sm {
+        text-align: center;
+    }
+    
+    .hide-sm {
+        display: none;
+    }
+    
+    .show-sm {
+        display: block;
+    }
+    
+    /* Animation Adjustments */
+    .fade-in {
+        animation-delay: 0s !important;
+    }
+}
+
+/* Mobile Landscape (Max Height 600px) */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero {
+        padding: 6rem 0 3rem;
+    }
+    
+    .modal-content {
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .header,
+    .footer,
+    .btn,
+    .mobile-menu-btn,
+    .search-box,
+    .cta-section,
+    .newsletter-section {
+        display: none !important;
+    }
+    
+    body {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+    
+    .section {
+        padding: 1rem 0 !important;
+        page-break-inside: avoid;
+    }
+    
+    a {
+        color: black !important;
+        text-decoration: underline !important;
+    }
+    
+    .card {
+        border: 1px solid #ddd !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --primary: #0052cc;
+        --secondary: #5a2d9c;
+        --accent: #cc0044;
+        --dark: #000000;
+        --light: #ffffff;
+    }
+    
+    .card,
+    .tool-card,
+    .article-card {
+        border: 2px solid var(--light);
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    .fade-in,
+    .hover-lift:hover,
+    .card:hover {
+        transform: none !important;
+    }
+}
+
+/* Dark Mode (System Preference) */
+@media (prefers-color-scheme: dark) {
+    /* Our site is already dark, so no changes needed */
+}
+
+/* Light Mode (System Preference - Override) */
+@media (prefers-color-scheme: light) {
+    body.light-mode {
+        background: var(--light);
+        color: var(--dark);
+    }
+    
+    body.light-mode .card,
+    body.light-mode .tool-card,
+    body.light-mode .article-card {
+        background: var(--gray-50);
+        border-color: var(--gray-200);
+        color: var(--dark);
+    }
+    
+    body.light-mode .form-control {
+        background: white;
+        border-color: var(--gray-300);
+        color: var(--dark);
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .btn,
+    .nav-link,
+    .category-tag,
+    .filter-btn,
+    .control-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .nav-link {
+        padding: 1rem;
+    }
+    
+    /* Increase tap targets */
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* Remove hover effects for touch devices */
+    .card:hover,
+    .tool-card:hover,
+    .article-card:hover {
+        transform: none;
+    }
+}
+
+/* Very Large Screens (4K and above) */
+@media (min-width: 2000px) {
+    .container {
+        max-width: 1800px;
+    }
+    
+    .hero-title {
+        font-size: 5rem;
+    }
+    
+    .section-title {
+        font-size: 3.5rem;
+    }
+    
+    p {
+        font-size: 1.25rem;
+    }
+    
+    .btn {
+        font-size: 1.125rem;
+        padding: 1.25rem 2.5rem;
+    }
+}
